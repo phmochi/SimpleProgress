@@ -1,9 +1,6 @@
-package patrick.hourlog;
-
-import android.util.Log;
+package patrick.SimpleProgress;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 /**

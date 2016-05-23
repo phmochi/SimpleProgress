@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="patrick.hourlog.EditEntryActivity"
+    tools:context="patrick.SimpleProgress.EditEntryActivity"
     tools:showIn="@layout/activity_edit_entry">
 
     <LinearLayout

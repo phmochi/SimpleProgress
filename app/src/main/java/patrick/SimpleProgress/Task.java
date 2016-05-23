@@ -1,8 +1,4 @@
-package patrick.hourlog;
-
-import android.util.Log;
-
-import java.util.ArrayList;
+package patrick.SimpleProgress;
 
 /**
  * Created by Patrick on 5/10/2016.

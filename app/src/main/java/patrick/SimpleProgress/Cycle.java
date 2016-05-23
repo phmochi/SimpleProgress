@@ -1,4 +1,4 @@
-package patrick.hourlog;
+package patrick.SimpleProgress;
 
 /**
  * Created by Patrick on 5/18/2016.

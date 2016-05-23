@@ -1,4 +1,4 @@
-package patrick.hourlog;
+package patrick.SimpleProgress;
 
 import org.junit.Test;
 

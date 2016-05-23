@@ -1,4 +1,4 @@
-package patrick.hourlog;
+package patrick.SimpleProgress;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

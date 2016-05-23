@@ -1,4 +1,4 @@
-package patrick.hourlog;
+package patrick.SimpleProgress;
 
 import android.text.format.DateUtils;
 import android.util.Log;

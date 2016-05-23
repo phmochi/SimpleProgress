@@ -1,8 +1,7 @@
-package patrick.hourlog;
+package patrick.SimpleProgress;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +28,24 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         }
 
         TextView taskName = (TextView) convertView.findViewById(R.id.taskName);
-        TextView taskHours = (TextView) convertView.findViewById(R.id.taskGoal);
+        TextView taskCompleted = (TextView) convertView.findViewById(R.id.taskCompletedText);
+        TextView taskGoal = (TextView) convertView.findViewById(R.id.taskGoalText);
         TextView taskCycle = (TextView) convertView.findViewById(R.id.taskCycleText);
+        Context context = getContext();
 
         taskName.setText(task.getName());
         double done = task.getCompleted();
+        double goal = task.getGoal();
         DecimalFormat format = new DecimalFormat("0.##");
-        taskHours.setText(format.format(done) + " / " + format.format(task.getGoal()));
+        taskCompleted.setText(format.format(done));
+        taskGoal.setText(" / " + format.format(goal));
         taskCycle.setText(task.getCycle().toString());
+
+        if (done > goal){
+            taskCompleted.setTextColor(ContextCompat.getColor(context, R.color.softgreen));
+        } else {
+            taskCompleted.setTextColor(ContextCompat.getColor(context, R.color.softred));
+        }
 
         return convertView;
     }

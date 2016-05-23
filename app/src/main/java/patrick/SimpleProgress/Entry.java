@@ -1,4 +1,4 @@
-package patrick.hourlog;
+package patrick.SimpleProgress;
 
 import android.os.Parcel;
 import android.os.Parcelable;
