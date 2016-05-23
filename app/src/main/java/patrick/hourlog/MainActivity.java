@@ -132,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
         taskAdapter.notifyDataSetChanged();
     }
 
+    private void updateEntries(ArrayList<Entry> entries){
+        taskManager.updateEntries(entries);
+        taskAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -183,7 +188,9 @@ public class MainActivity extends AppCompatActivity {
             case VIEW_TASK_REQUEST:
                 if (resultCode == RESULT_OK){
                     ArrayList<Entry> entriesToRemove = data.getParcelableArrayListExtra("entriesToRemove");
+                    ArrayList<Entry> entriesToUpdate = data.getParcelableArrayListExtra("entriesToUpdate");
                     deleteEntries(entriesToRemove);
+                    updateEntries(entriesToUpdate);
                 }
                 break;
             default:

@@ -2,6 +2,8 @@ package patrick.hourlog;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by Patrick on 5/10/2016.
  */
@@ -10,8 +12,8 @@ public class Task {
     private int id;
     private String name;
     private double goal;
-    private double done;
     private Cycle cycle;
+    private EntryManager entryManager;
 
     public Task(String name, double goal, Cycle cycle){
         this.name = name;
@@ -24,18 +26,6 @@ public class Task {
         this.name = name;
         this.goal = goal;
         this.cycle = cycle;
-    }
-
-    public double getDone() {
-        return done;
-    }
-
-    public void addToDone(double toAdd){
-        done += toAdd;
-    }
-
-    public void setDone(double done) {
-        this.done = done;
     }
 
     public int getId() {
@@ -68,5 +58,17 @@ public class Task {
 
     public void setCycle(Cycle cycle) {
         this.cycle = cycle;
+    }
+
+    public void initializeEntryManager(){
+        entryManager = new EntryManager();
+    }
+
+    public EntryManager getEntryManager(){
+        return entryManager;
+    }
+
+    public double getCompleted(){
+        return entryManager.getCompleted();
     }
 }

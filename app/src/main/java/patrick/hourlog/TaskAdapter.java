@@ -33,7 +33,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         TextView taskCycle = (TextView) convertView.findViewById(R.id.taskCycleText);
 
         taskName.setText(task.getName());
-        double done = task.getDone();
+        double done = task.getCompleted();
         DecimalFormat format = new DecimalFormat("0.##");
         taskHours.setText(format.format(done) + " / " + format.format(task.getGoal()));
         taskCycle.setText(task.getCycle().toString());

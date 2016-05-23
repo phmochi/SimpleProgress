@@ -18,9 +18,7 @@ import java.util.Locale;
 
 public class EditEntryActivity extends AppCompatActivity {
 
-    private int entryId;
-    private Date date;
-    private double hours;
+    private Entry entry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +32,10 @@ public class EditEntryActivity extends AppCompatActivity {
         final EditText editEntryDate = (EditText) findViewById(R.id.editEntryDate);
         final Calendar myCalendar = Calendar.getInstance();
 
-        entryId = extras.getInt("id");
-        date = new Date(extras.getLong("date"));
-        hours = extras.getDouble("hours");
+        entry = extras.getParcelable("entry");
 
-        Log.d("edit", "hours: " + hours);
-
-        editEntryDate.setText(sdf.format(date));
-        editEntryHours.setText(String.valueOf(hours));
+        editEntryDate.setText(sdf.format(entry.getDate()));
+        editEntryHours.setText(String.valueOf(entry.getHours()));
 
         Button saveBtn = (Button) findViewById(R.id.editEntrySaveBtn);
         Button cancelBtn = (Button) findViewById(R.id.editEntryCancelBtn);
@@ -71,11 +65,11 @@ public class EditEntryActivity extends AppCompatActivity {
                 String hours = editEntryHours.getText().toString().trim();
                 String dateString = editEntryDate.getText().toString().trim();
                 Date date = sdf.parse(dateString, new ParsePosition(0));
+                entry.setDate(date);
+                entry.setHours(Double.parseDouble(hours));
 
                 Intent intent = new Intent();
-                intent.putExtra("id", entryId);
-                intent.putExtra("hours", Double.parseDouble(hours));
-                intent.putExtra("date", date.getTime());
+                intent.putExtra("entry", entry);
                 setResult(RESULT_OK, intent);
                 finish();
             }

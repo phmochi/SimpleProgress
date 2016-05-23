@@ -197,13 +197,13 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateEntry(int id, Date date, double hours){
+    public void updateEntry(Entry e){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(ENTRY_DATE, date.getTime());
-        cv.put(ENTRY_HOURS, hours);
+        cv.put(ENTRY_DATE, e.getDate().getTime());
+        cv.put(ENTRY_HOURS, e.getHours());
 
-        db.update(TABLE_ENTRIES, cv, "_id="+id, null);
+        db.update(TABLE_ENTRIES, cv, "_id="+e.getId(), null);
     }
 }

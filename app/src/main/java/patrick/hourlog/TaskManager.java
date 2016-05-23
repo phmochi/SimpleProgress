@@ -24,11 +24,13 @@ public class TaskManager {
     }
 
     public void addTask(Task task){
+        task.initializeEntryManager();
         taskMap.put(task.getId(), task);
     }
 
     public void addTasks(ArrayList<Task> tasks){
         for (Task t: tasks){
+            t.initializeEntryManager();
             taskMap.put(t.getId(), t);
         }
     }
@@ -39,15 +41,11 @@ public class TaskManager {
 
     public void addEntries(ArrayList<Entry> entries){
         Task t;
-        double toAdd;
 
         for (Entry e: entries){
             t = taskMap.get(e.getTaskId());
-            if (t != null) {
-                if(isActive(t, e)) {
-                    toAdd = e.getHours();
-                    t.addToDone(toAdd);
-                }
+            if(isActive(t, e)) {
+                t.getEntryManager().addEntry(e);
             }
         }
     }
@@ -109,15 +107,30 @@ public class TaskManager {
         return month == entryMonth && year == entryYear;
     }
 
-    public void addEntry(Entry entry){
-        Task t = taskMap.get(entry.getTaskId());
-        t.addToDone(entry.getHours());
+    public void addEntry(Entry e){
+        Task t = taskMap.get(e.getTaskId());
+        if (isActive(t, e)){
+            t.getEntryManager().addEntry(e);
+        }
     }
 
     public void deleteEntries(ArrayList<Entry> entries){
         for (Entry e: entries){
             Task t = taskMap.get(e.getTaskId());
-            t.setDone(t.getDone() - e.getHours());
+            t.getEntryManager().removeEntry(e);
+        }
+    }
+
+    public void updateEntries(ArrayList<Entry> entries){
+        for (Entry e: entries){
+            Task t = taskMap.get(e.getTaskId());
+            if (!isActive(t, e)){
+                Log.d("updating", "is not active");
+                t.getEntryManager().removeEntry(e);
+            } else {
+                Log.d("updating", "is active");
+                t.getEntryManager().updateEntry(e);
+            }
         }
     }
 

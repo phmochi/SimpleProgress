@@ -28,6 +28,7 @@ public class ViewTaskActivity extends AppCompatActivity {
     private String cycle;
     private EntryAdapter ea;
     private ArrayList<Entry> entriesToRemove;
+    private ArrayList<Entry> entriesToUpdate;
     private EntryManager entryManager;
 
     @Override
@@ -39,6 +40,7 @@ public class ViewTaskActivity extends AppCompatActivity {
 
         db = new DBHelper(this);
         entriesToRemove = new ArrayList<>();
+        entriesToUpdate = new ArrayList<>();
         ListView entryListView = (ListView) findViewById(R.id.entryListView);
         TextView taskNameView = (TextView) findViewById(R.id.taskNameView);
         TextView taskCycleView = (TextView) findViewById(R.id.viewTaskCycleText);
@@ -50,6 +52,7 @@ public class ViewTaskActivity extends AppCompatActivity {
 
         taskNameView.setText(taskName);
         taskCycleView.setText(cycle);
+
         entryManager = new EntryManager(db.getEntriesFor(taskId));
         ea = new EntryAdapter(this, entryManager.getAllEntries());
         entryListView.setAdapter(ea);
@@ -80,9 +83,7 @@ public class ViewTaskActivity extends AppCompatActivity {
             case R.id.entryEdit:
                 Intent intent = new Intent(ViewTaskActivity.this, EditEntryActivity.class);
                 entry = ea.getItem(info.position);
-                intent.putExtra("id", entry.getId());
-                intent.putExtra("date", entry.getDate().getTime());
-                intent.putExtra("hours", entry.getHours());
+                intent.putExtra("entry", entry);
                 startActivityForResult(intent, EDIT_ENTRY_REQUEST);
                 return true;
             case R.id.entryDelete:
@@ -100,9 +101,9 @@ public class ViewTaskActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Log.d("view", "on destroy");
         Intent intent = new Intent();
         intent.putExtra("entriesToRemove", entriesToRemove);
+        intent.putExtra("entriesToUpdate", entriesToUpdate);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -114,10 +115,8 @@ public class ViewTaskActivity extends AppCompatActivity {
         switch(requestCode){
             case EDIT_ENTRY_REQUEST:
                 if (resultCode == RESULT_OK){
-                    int id = data.getIntExtra("id", -1);
-                    Date date = new Date(data.getLongExtra("date", -1));
-                    double hours = data.getDoubleExtra("hours", -1);
-                    updateEntry(id, date, hours);
+                    Entry e = data.getParcelableExtra("entry");
+                    updateEntry(e);
                 }
                 break;
             default:
@@ -125,9 +124,11 @@ public class ViewTaskActivity extends AppCompatActivity {
         }
     }
 
-    private void updateEntry(int id, Date date, double hours){
-        db.updateEntry(id, date, hours);
-        entryManager.updateEntry(id, date, hours);
+    private void updateEntry(Entry e){
+        Log.d("update", "id: " + e.getId() + " hours: " + e.getHours() + " date: " + e.getDate().toString());
+        db.updateEntry(e);
+        entryManager.updateEntry(e);
+        entriesToUpdate.add(e);
         ea.notifyDataSetChanged();
     }
 }

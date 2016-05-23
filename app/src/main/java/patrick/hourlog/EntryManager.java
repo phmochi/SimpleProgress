@@ -12,9 +12,17 @@ import java.util.HashMap;
 public class EntryManager {
     private HashMap<Integer, Entry> entryMap;
 
+    public EntryManager(){
+        entryMap = new HashMap<>();
+    }
+
     public EntryManager(ArrayList<Entry> entries){
         entryMap = new HashMap<>();
         addEntries(entries);
+    }
+
+    public void addEntry(Entry e){
+        entryMap.put(e.getId(), e);
     }
 
     public void addEntries(ArrayList<Entry> entries){
@@ -27,14 +35,29 @@ public class EntryManager {
         entryMap.remove(e.getId());
     }
 
-    public void updateEntry(int id, Date date, double hours){
-        Log.d("em", "id: " + id);
-        Entry e = entryMap.get(id);
-        e.setDate(date);
-        e.setHours(hours);
+    public void updateEntry(Entry updatedEntry){
+        int key = updatedEntry.getId();
+        if (entryMap.containsKey(key)) {
+            Entry e = entryMap.get(updatedEntry.getId());
+            e.setDate(updatedEntry.getDate());
+            e.setHours(updatedEntry.getHours());
+        } else {
+            entryMap.put(key, updatedEntry);
+        }
     }
 
     public ArrayList<Entry> getAllEntries(){
         return new ArrayList<>(entryMap.values());
+    }
+
+    public double getCompleted(){
+        ArrayList<Entry> entries = getAllEntries();
+        double completed = 0;
+
+        for (Entry e: entries){
+            completed += e.getHours();
+        }
+
+        return completed;
     }
 }

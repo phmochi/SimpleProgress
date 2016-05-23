@@ -20,6 +20,17 @@ public class Entry implements Parcelable {
         date = new Date();
     }
 
+    public Entry(double hours, Date date){
+        this.hours = hours;
+        this.date = date;
+    }
+
+    public Entry(int taskId, double hours, Date date){
+        this.taskId = taskId;
+        this.hours = hours;
+        this.date = date;
+    }
+
     private Entry(Parcel in){
         id = in.readInt();
         taskId = in.readInt();
