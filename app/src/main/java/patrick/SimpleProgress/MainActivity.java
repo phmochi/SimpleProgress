@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
     public void addTask(Task task){
         db.addTask(task);
         taskManager.addTask(task);
+        taskAdapter.clear();
+        taskAdapter.addAll(taskManager.getAllTasks());
         taskAdapter.notifyDataSetChanged();
     }
 
@@ -119,8 +121,9 @@ public class MainActivity extends AppCompatActivity {
         db.deleteTask(task);
         db.deleteEntriesWithId(task.getId());
         taskManager.removeTask(task);
-        taskAdapter.remove(task);
-        taskAdapter.notifyDataSetChanged();
+        taskAdapter.clear();
+        taskAdapter.addAll(taskManager.getAllTasks());
+        taskAdapter.remove(task);taskAdapter.notifyDataSetChanged();
     }
 
     public void addEntry(Entry entry){
