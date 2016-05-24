@@ -1,6 +1,8 @@
 package patrick.SimpleProgress;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -44,7 +46,17 @@ public class EntryManager {
     }
 
     public ArrayList<Entry> getAllEntries(){
-        return new ArrayList<>(entryMap.values());
+
+        ArrayList<Entry> entries = new ArrayList<> (entryMap.values());
+
+        Collections.sort(entries, new Comparator<Entry>() {
+            @Override
+            public int compare(Entry lhs, Entry rhs) {
+                return lhs.getDate().compareTo(rhs.getDate());
+            }
+        });
+
+        return entries;
     }
 
     public double getCompleted(){

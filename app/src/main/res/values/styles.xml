@@ -20,5 +20,6 @@
     <color name="softgreen">#77C57B</color>
     <color name="softred">#FF5F83</color>
     <color name="white">#FFF</color>
+    <color name="softblue">#00BFFF</color>
 
 </resources>

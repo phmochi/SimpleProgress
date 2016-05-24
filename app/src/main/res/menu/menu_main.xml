@@ -7,9 +7,4 @@
         android:title="@string/addTask"
         android:icon="@drawable/ic_add_white_24dp"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
 </menu>

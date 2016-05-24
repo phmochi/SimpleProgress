@@ -2,10 +2,12 @@ package patrick.SimpleProgress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +41,6 @@ public class ViewTaskActivity extends AppCompatActivity {
         entriesToRemove = new ArrayList<>();
         entriesToUpdate = new ArrayList<>();
         ListView entryListView = (ListView) findViewById(R.id.entryListView);
-        TextView taskNameView = (TextView) findViewById(R.id.taskNameView);
         TextView taskCycleView = (TextView) findViewById(R.id.viewTaskCycleText);
 
         Bundle extras = getIntent().getExtras();
@@ -47,8 +48,10 @@ public class ViewTaskActivity extends AppCompatActivity {
         taskName = extras.getString("taskName");
         cycle = extras.getString("cycle");
 
-        taskNameView.setText(taskName);
+        getSupportActionBar().setTitle(taskName);
         taskCycleView.setText(cycle);
+
+        taskCycleView.setTextColor(ContextCompat.getColor(this, R.color.softblue));
 
         entryManager = new EntryManager(db.getEntriesFor(taskId));
         ea = new EntryAdapter(this, entryManager.getAllEntries());
@@ -97,6 +100,12 @@ public class ViewTaskActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_viewtask, menu);
+        return true;
+    }
+
+    @Override
     public void onBackPressed(){
         Intent intent = new Intent();
         intent.putExtra("entriesToRemove", entriesToRemove);
@@ -122,10 +131,11 @@ public class ViewTaskActivity extends AppCompatActivity {
     }
 
     private void updateEntry(Entry e){
-        Log.d("update", "id: " + e.getId() + " hours: " + e.getHours() + " date: " + e.getDate().toString());
         db.updateEntry(e);
         entryManager.updateEntry(e);
         entriesToUpdate.add(e);
+        ea.clear();
+        ea.addAll(entryManager.getAllEntries());
         ea.notifyDataSetChanged();
     }
 }

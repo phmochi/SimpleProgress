@@ -14,12 +14,15 @@
     <string name="hours">Time Completed:</string>
     <string name="save">Save</string>
     <string name="addTask">Add Task</string>
+    <string name="deleteTask">Delete Task</string>
+    <string name="editTask">Edit Task</string>
+    <string name="reoccurs">Reoccurs </string>
     <string-array name="contextMenu">
         <item>Edit</item>
         <item>Delete</item>
     </string-array>
     <string name="title_activity_add_task">Add Task</string>
     <string name="title_activity_add_entry">Add Entry</string>
-    <string name="title_activity_view_task">ViewTaskActivity</string>
-    <string name="title_activity_edit_entry">EditEntryActivity</string>
+    <string name="title_activity_view_task">View Task</string>
+    <string name="title_activity_edit_entry">Edit Entry</string>
 </resources>

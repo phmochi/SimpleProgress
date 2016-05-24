@@ -157,8 +157,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch(id){
-            case R.id.action_settings:
-                return true;
             case R.id.add_task:
                 Intent intent = new Intent(this, AddTaskActivity.class);
                 startActivityForResult(intent, ADD_TASK_REQUEST);
