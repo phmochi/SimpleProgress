@@ -2,11 +2,13 @@ package patrick.SimpleProgress;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class AddEntryActivity extends Activity {
 
@@ -22,8 +24,8 @@ public class AddEntryActivity extends Activity {
         taskId = extras.getInt("taskId");
         Log.d("addentry", "task id: " + taskId);
 
-        Button addEntryButton = (Button) findViewById(R.id.btnAddEntry);
-        Button cancelEntryButton = (Button) findViewById(R.id.btnCancelEntry);
+        ImageButton addEntryButton = (ImageButton) findViewById(R.id.btnAddEntry);
+        ImageButton cancelEntryButton = (ImageButton) findViewById(R.id.btnCancelEntry);
         final EditText toAddText = (EditText) findViewById(R.id.editToAdd);
 
         addEntryButton.setOnClickListener(new View.OnClickListener() {

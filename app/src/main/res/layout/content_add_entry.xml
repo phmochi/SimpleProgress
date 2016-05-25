@@ -17,18 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
+        <ImageButton
             android:id="@+id/btnCancelEntry"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/cancel"/>
-        <Button
+            android:src="@drawable/ic_clear_white_24dp"/>
+        <ImageButton
             android:id="@+id/btnAddEntry"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/add"/>
+            android:src="@drawable/ic_done_white_24dp"/>
     </LinearLayout>
 
 </LinearLayout>

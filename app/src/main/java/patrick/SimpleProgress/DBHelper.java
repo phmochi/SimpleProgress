@@ -52,7 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addTask(Task task){
+    public int addTask(Task task){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -60,11 +60,13 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(TASK_GOAL, task.getGoal());
         values.put(TASK_CYCLE, task.getCycle().toString());
 
-        db.insert(TABLE_TASKS, null, values);
+        long id = db.insert(TABLE_TASKS, null, values);
         db.close();
+
+        return (int) id;
     }
 
-    public void addEntry(Entry entry){
+    public int addEntry(Entry entry){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -72,8 +74,10 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(ENTRY_HOURS, entry.getHours());
         values.put(ENTRY_DATE, entry.getDate().getTime());
 
-        db.insert(TABLE_ENTRIES, null, values);
+        long id = db.insert(TABLE_ENTRIES, null, values);
         db.close();
+
+        return (int) id;
     }
 
     public Task getTask(int id){

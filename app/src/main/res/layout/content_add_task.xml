@@ -64,25 +64,4 @@
             android:spinnerMode="dropdown"/>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="15dp">
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"/>
-        <Button
-            android:id="@+id/btnAddTask"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/add"/>
-    </LinearLayout>
-
-
 </LinearLayout>

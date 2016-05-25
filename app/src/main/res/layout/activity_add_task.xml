@@ -24,3 +24,4 @@
     <include layout="@layout/content_add_task" />
 
 </android.support.design.widget.CoordinatorLayout>
+

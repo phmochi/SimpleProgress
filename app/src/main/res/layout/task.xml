@@ -14,13 +14,14 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:textSize="35sp"/>
+            android:textSize="25sp"/>
 
         <TextView
             android:id="@+id/taskCycleText"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:textSize="10sp"
             android:layout_gravity="bottom"/>
     </LinearLayout>
 
@@ -34,13 +35,13 @@
             android:id="@+id/taskCompletedText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="60sp"/>
+            android:textSize="40sp"/>
 
         <TextView
             android:id="@+id/taskGoalText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"/>
+            android:textSize="25sp"/>
 
     </LinearLayout>
 

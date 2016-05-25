@@ -110,36 +110,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addTask(Task task){
-        db.addTask(task);
+        task.setId(db.addTask(task));
         taskManager.addTask(task);
-        taskAdapter.clear();
-        taskAdapter.addAll(taskManager.getAllTasks());
-        taskAdapter.notifyDataSetChanged();
+        updateAdapter();
     }
 
     private void deleteTask(Task task){
         db.deleteTask(task);
         db.deleteEntriesWithId(task.getId());
         taskManager.removeTask(task);
-        taskAdapter.clear();
-        taskAdapter.addAll(taskManager.getAllTasks());
-        taskAdapter.remove(task);taskAdapter.notifyDataSetChanged();
+        updateAdapter();
     }
 
     public void addEntry(Entry entry){
-        db.addEntry(entry);
+        entry.setId(db.addEntry(entry));
         taskManager.addEntry(entry);
-        taskAdapter.notifyDataSetChanged();
+        updateAdapter();
     }
 
     private void deleteEntries(ArrayList<Entry> entries){
         taskManager.deleteEntries(entries);
-        taskAdapter.notifyDataSetChanged();
+        updateAdapter();
     }
 
     private void updateEntries(ArrayList<Entry> entries){
         taskManager.updateEntries(entries);
-        taskAdapter.notifyDataSetChanged();
+        updateAdapter();
     }
 
     @Override
@@ -185,7 +181,11 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("result", "task id: " + taskId);
                     double toAdd = Double.parseDouble(data.getStringExtra("toAdd"));
                     Log.d("result", "to add: " + toAdd);
-                    addEntry(new Entry(taskId, toAdd));
+                    if (taskId >= 1) {
+                        addEntry(new Entry(taskId, toAdd));
+                    }else{
+                        throw new IllegalArgumentException();
+                    }
                 }
                 break;
             case VIEW_TASK_REQUEST:
@@ -201,4 +201,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateAdapter(){
+        taskAdapter.clear();
+        taskAdapter.addAll(taskManager.getAllTasks());
+        taskAdapter.notifyDataSetChanged();
+    }
 }

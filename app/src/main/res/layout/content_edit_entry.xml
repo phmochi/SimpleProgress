@@ -24,6 +24,7 @@
 
         <EditText
             android:id="@+id/editEntryDate"
+            android:inputType="date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -40,6 +41,7 @@
 
         <EditText
             android:id="@+id/editEntryHours"
+            android:inputType="numberDecimal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

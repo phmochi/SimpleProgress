@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="patrick.SimpleProgress.MainActivity">
+    <item
+        android:id="@+id/btnCancel"
+        android:title="@string/addTask"
+        android:icon="@drawable/ic_clear_white_24dp"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/btnOk"
+        android:title="@string/addTask"
+        android:icon="@drawable/ic_done_white_24dp"
+        app:showAsAction="ifRoom" />
+
+</menu>
