@@ -77,36 +77,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, ADD_ENTRY_REQUEST);
             }
         });
-    }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_context, menu);
-    }
+        taskListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item){
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Task task;
-
-        switch (item.getItemId()) {
-            case R.id.view:
-                Intent intent = new Intent(this, ViewTaskActivity.class);
-                task = taskAdapter.getItem(info.position);
-                intent.putExtra("taskId", task.getId());
-                intent.putExtra("taskName", task.getName());
-                intent.putExtra("cycle", task.getCycle().toString());
+                Intent intent = new Intent(MainActivity.this, ViewTaskActivity.class);
+                Task task = (Task) taskListView.getItemAtPosition(position);
+                intent.putExtra("task", task);
                 startActivityForResult(intent, VIEW_TASK_REQUEST);
+
                 return true;
-            case R.id.delete:
-                task = taskAdapter.getItem(info.position);
-                deleteTask(task);
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
+            }
+        });
     }
 
     public void addTask(Task task){
@@ -115,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
         updateAdapter();
     }
 
-    private void deleteTask(Task task){
-        db.deleteTask(task);
-        db.deleteEntriesWithId(task.getId());
-        taskManager.removeTask(task);
+    private void deleteTask(int taskId){
+        db.deleteTask(taskId);
+        db.deleteEntriesWithId(taskId);
+        taskManager.removeTask(taskId);
         updateAdapter();
     }
 
@@ -190,10 +173,29 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case VIEW_TASK_REQUEST:
                 if (resultCode == RESULT_OK){
-                    ArrayList<Entry> entriesToRemove = data.getParcelableArrayListExtra("entriesToRemove");
-                    ArrayList<Entry> entriesToUpdate = data.getParcelableArrayListExtra("entriesToUpdate");
-                    deleteEntries(entriesToRemove);
-                    updateEntries(entriesToUpdate);
+                    String result = data.getStringExtra("result");
+
+                    switch (result){
+                        case "complete":
+                            ArrayList<Entry> entriesToRemove = data.getParcelableArrayListExtra("entriesToRemove");
+                            ArrayList<Entry> entriesToUpdate = data.getParcelableArrayListExtra("entriesToUpdate");
+                            Boolean taskUpdated = data.getBooleanExtra("taskUpdated", false);
+
+                            deleteEntries(entriesToRemove);
+                            updateEntries(entriesToUpdate);
+
+                            if (taskUpdated) {
+                                Task task = data.getParcelableExtra("task");
+                                ArrayList<Entry> entries = db.getEntriesFor(task.getId());
+                                taskManager.updateTask(task, entries);
+                                updateAdapter();
+                            }
+                        case "delete":
+                            int taskId = data.getIntExtra("taskId", -1);
+                            deleteTask(taskId);
+                        default:
+                            break;
+                    }
                 }
                 break;
             default:

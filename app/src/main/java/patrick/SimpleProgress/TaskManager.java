@@ -35,8 +35,8 @@ public class TaskManager {
         }
     }
 
-    public void removeTask(Task task){
-        taskMap.remove(task.getId());
+    public void removeTask(int taskId){
+        taskMap.remove(taskId);
     }
 
     public void addEntries(ArrayList<Entry> entries){
@@ -132,6 +132,18 @@ public class TaskManager {
                 t.getEntryManager().updateEntry(e);
             }
         }
+    }
+
+    public void updateTask(Task task, ArrayList<Entry> entries){
+        task.initializeEntryManager();
+
+        for (Entry e: entries){
+            if (isActive(task, e)){
+                task.getEntryManager().addEntry(e);
+            }
+        }
+
+        taskMap.put(task.getId(), task);
     }
 
     public ArrayList<Task> getAllTasks(){

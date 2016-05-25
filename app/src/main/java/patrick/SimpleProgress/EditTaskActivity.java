@@ -2,21 +2,22 @@ package patrick.SimpleProgress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class AddTaskActivity extends AppCompatActivity {
 
+public class EditTaskActivity extends AppCompatActivity {
+
+    private Task task;
     private EditText nameText;
     private EditText goalText;
     private Spinner spinner;
@@ -24,17 +25,27 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_task);
+        setContentView(R.layout.activity_edit_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        nameText = (EditText) findViewById(R.id.addTaskNameEdit);
-        goalText = (EditText) findViewById(R.id.addTaskGoalEdit);
-        spinner = (Spinner) findViewById(R.id.addTaskSpinner);
+        Bundle extras = getIntent().getExtras();
+
+        nameText = (EditText) findViewById(R.id.editTaskNameEdit);
+        goalText = (EditText) findViewById(R.id.editTaskGoalEdit);
+        spinner = (Spinner) findViewById(R.id.editTaskCycleSpinner);
         String[] values = Cycle.getStringArray();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, values);
         spinner.setAdapter(adapter);
+
+        task = extras.getParcelable("task");
+
+        nameText.setText(task.getName());
+        goalText.setText(String.valueOf(task.getGoal()));
+
+        int spinnerPosition = adapter.getPosition(task.getCycle().toString());
+        spinner.setSelection(spinnerPosition);
     }
 
     @Override
@@ -55,17 +66,15 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 if (!name.equals("") && !goal.equals("") && isValidGoal(goal)) {
                     Intent intent = new Intent();
-                    intent.putExtra("name", name);
-                    intent.putExtra("goal", goal);
-                    intent.putExtra("cycle", cycle);
+                    intent.putExtra("task", new Task(task.getId(), name, Double.parseDouble(goal), Cycle.valueOf(cycle)));
                     setResult(RESULT_OK, intent);
                     finish();
                 } else if (name.equals("")) {
-                    Toast.makeText(AddTaskActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditTaskActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();
                 } else if (goal.equals("")){
-                    Toast.makeText(AddTaskActivity.this, "Please enter time completed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditTaskActivity.this, "Please enter time completed", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(AddTaskActivity.this, "Please enter a goal between 0 and 10000", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditTaskActivity.this, "Please enter a goal between 0 and 10000", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.btnCancel:
@@ -84,5 +93,4 @@ public class AddTaskActivity extends AppCompatActivity {
         }
         return false;
     }
-
 }

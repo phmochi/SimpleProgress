@@ -17,18 +17,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+//TODO: active entries
 public class ViewTaskActivity extends AppCompatActivity {
 
     static final int EDIT_ENTRY_REQUEST = 0;
+    static final int EDIT_TASK_REQUEST = 1;
 
     private DBHelper db;
-    private int taskId;
-    private String taskName;
-    private String cycle;
     private EntryAdapter ea;
     private ArrayList<Entry> entriesToRemove;
     private ArrayList<Entry> entriesToUpdate;
     private EntryManager entryManager;
+    private Task task;
+    private ListView entryListView;
+    private TextView taskCycleView;
+    private boolean taskUpdated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +43,18 @@ public class ViewTaskActivity extends AppCompatActivity {
         db = new DBHelper(this);
         entriesToRemove = new ArrayList<>();
         entriesToUpdate = new ArrayList<>();
-        ListView entryListView = (ListView) findViewById(R.id.entryListView);
-        TextView taskCycleView = (TextView) findViewById(R.id.viewTaskCycleText);
+        entryListView = (ListView) findViewById(R.id.entryListView);
+        taskCycleView = (TextView) findViewById(R.id.viewTaskCycleText);
+        taskUpdated = false;
 
         Bundle extras = getIntent().getExtras();
-        taskId = extras.getInt("taskId");
-        taskName = extras.getString("taskName");
-        cycle = extras.getString("cycle");
 
-        getSupportActionBar().setTitle(taskName);
-        taskCycleView.setText(cycle);
+        task = extras.getParcelable("task");
 
+        updateView();
         taskCycleView.setTextColor(ContextCompat.getColor(this, R.color.softblue));
 
-        entryManager = new EntryManager(db.getEntriesFor(taskId));
+        entryManager = new EntryManager(db.getEntriesFor(task.getId()));
         ea = new EntryAdapter(this, entryManager.getAllEntries());
         entryListView.setAdapter(ea);
 
@@ -106,8 +107,34 @@ public class ViewTaskActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        Intent intent;
+
+        switch(id){
+            case R.id.delete_task:
+                intent = new Intent();
+                intent.putExtra("result", "delete");
+                intent.putExtra("taskId", task.getId());
+                setResult(RESULT_OK, intent);
+                finish();
+                return true;
+            case R.id.edit_task:
+                intent = new Intent(this, EditTaskActivity.class);
+                intent.putExtra("task", task);
+                startActivityForResult(intent, EDIT_TASK_REQUEST);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onBackPressed(){
         Intent intent = new Intent();
+        intent.putExtra("result", "complete");
+        intent.putExtra("task", task);
+        intent.putExtra("taskUpdated", taskUpdated);
         intent.putExtra("entriesToRemove", entriesToRemove);
         intent.putExtra("entriesToUpdate", entriesToUpdate);
         setResult(RESULT_OK, intent);
@@ -125,6 +152,12 @@ public class ViewTaskActivity extends AppCompatActivity {
                     updateEntry(e);
                 }
                 break;
+            case EDIT_TASK_REQUEST:
+                if (resultCode == RESULT_OK){
+                    Task t = data.getParcelableExtra("task");
+                    updateTask(t);
+                    taskUpdated = true;
+                }
             default:
                 break;
         }
@@ -137,5 +170,21 @@ public class ViewTaskActivity extends AppCompatActivity {
         ea.clear();
         ea.addAll(entryManager.getAllEntries());
         ea.notifyDataSetChanged();
+    }
+
+    private void updateTask(Task t){
+        task = t;
+        db.updateTask(t);
+        updateView();
+        updateActiveEntries();
+    }
+
+    private void updateView(){
+        getSupportActionBar().setTitle(task.getName());
+        taskCycleView.setText(task.getCycle().toString());
+    }
+
+    private void updateActiveEntries(){
+
     }
 }
