@@ -38,7 +38,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         double goal = task.getGoal();
         DecimalFormat format = new DecimalFormat("0.##");
         taskCompleted.setText(format.format(done));
-        taskGoal.setText(" / " + format.format(goal));
+        taskGoal.setText("/" + format.format(goal));
         taskCycle.setText(task.getCycle().toString());
 
         if (done > goal){

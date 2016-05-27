@@ -17,6 +17,9 @@
     <string name="deleteTask">Delete Task</string>
     <string name="editTask">Edit Task</string>
     <string name="reoccurs">Reoccurs </string>
+    <string name="hello">Hello!</string>
+    <string name="getStartedTasks">Add a task from the toolbar ( + ) to get started!</string>
+    <string name="getStartedGoals">Set a numerical goal to progress towards.</string>
     <string-array name="contextMenu">
         <item>Edit</item>
         <item>Delete</item>

@@ -12,15 +12,15 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-//TODO: empty tasklist display message
-//TODO: edit task menu
-//TODO: dynamically resize text (set field sizes)
 //TODO: list position (drag and drop)
+//TODO: Only show active entries in entrylist
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private TaskManager taskManager;
     private DBHelper db;
 
+    private LinearLayout welcomeMsg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
         db = new DBHelper(this);
 
         ArrayList<Task> tasks = db.getAllTasks();
+        welcomeMsg = (LinearLayout) findViewById(R.id.welcomeMsgLayout);
+
+        //if there are no tasks, show the welcome message
+        if (tasks.size() < 1){
+            showWelcomeMsg();
+        }
+
+        //initialize task and entry managers and add listeners
         taskManager = new TaskManager(tasks);
 
         Log.d("tasks", "there are: " + tasks.size() + "tasks");
@@ -92,7 +102,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showWelcomeMsg(){
+        welcomeMsg.setVisibility(View.VISIBLE);
+    }
+
+    private void hideWelcomeMsg(){
+        welcomeMsg.setVisibility(View.GONE);
+    }
+
     public void addTask(Task task){
+        //adding our first task so hide welcome message
+        if (taskManager.getAllTasks().size() < 1){
+            hideWelcomeMsg();
+        }
+
         task.setId(db.addTask(task));
         taskManager.addTask(task);
         updateAdapter();
@@ -103,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
         db.deleteEntriesWithId(taskId);
         taskManager.removeTask(taskId);
         updateAdapter();
+
+        //deleted all tasks so show welcome message
+        if (taskManager.getAllTasks().size() < 1){
+            showWelcomeMsg();
+        }
     }
 
     public void addEntry(Entry entry){
@@ -161,9 +189,7 @@ public class MainActivity extends AppCompatActivity {
             case ADD_ENTRY_REQUEST:
                 if (resultCode == RESULT_OK){
                     int taskId = data.getIntExtra("taskId", -1);
-                    Log.d("result", "task id: " + taskId);
                     double toAdd = Double.parseDouble(data.getStringExtra("toAdd"));
-                    Log.d("result", "to add: " + toAdd);
                     if (taskId >= 1) {
                         addEntry(new Entry(taskId, toAdd));
                     }else{

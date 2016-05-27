@@ -15,18 +15,23 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/viewTaskGoalText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/reoccurs"
+            android:layout_gravity="bottom"
+            android:textSize="25sp"
             android:paddingRight="10dp"/>
 
         <TextView
             android:id="@+id/viewTaskCycleText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:textSize="25sp"/>
     </TableRow>
 
     <TableRow

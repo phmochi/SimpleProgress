@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 //TODO: active entries
@@ -31,7 +32,9 @@ public class ViewTaskActivity extends AppCompatActivity {
     private Task task;
     private ListView entryListView;
     private TextView taskCycleView;
+    private TextView taskGoalView;
     private boolean taskUpdated;
+    private DecimalFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,9 @@ public class ViewTaskActivity extends AppCompatActivity {
         entriesToRemove = new ArrayList<>();
         entriesToUpdate = new ArrayList<>();
         entryListView = (ListView) findViewById(R.id.entryListView);
+        taskGoalView = (TextView) findViewById(R.id.viewTaskGoalText);
         taskCycleView = (TextView) findViewById(R.id.viewTaskCycleText);
+        format = new DecimalFormat("0.##");
         taskUpdated = false;
 
         Bundle extras = getIntent().getExtras();
@@ -181,6 +186,7 @@ public class ViewTaskActivity extends AppCompatActivity {
 
     private void updateView(){
         getSupportActionBar().setTitle(task.getName());
+        taskGoalView.setText(format.format(task.getGoal()));
         taskCycleView.setText(task.getCycle().toString());
     }
 
