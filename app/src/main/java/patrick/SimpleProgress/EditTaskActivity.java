@@ -63,6 +63,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 String name = nameText.getText().toString().trim();
                 String goal = goalText.getText().toString().trim();
                 String cycle = spinner.getSelectedItem().toString();
+                Double goalDbl = Double.parseDouble(goal);
 
                 if (!name.equals("") && !goal.equals("") && isValidGoal(goal)) {
                     Intent intent = new Intent();
@@ -73,7 +74,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     Toast.makeText(EditTaskActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();
                 } else if (goal.equals("")){
                     Toast.makeText(EditTaskActivity.this, "Please enter time completed", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (goalDbl < 0 || goalDbl >= 10000) {
                     Toast.makeText(EditTaskActivity.this, "Please enter a goal between 0 and 10000", Toast.LENGTH_SHORT).show();
                 }
                 return true;

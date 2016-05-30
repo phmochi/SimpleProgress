@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 //TODO: list position (drag and drop)
 //TODO: Only show active entries in entrylist
+//TODO: Swipe left to show graphs on viewtask screen
+//TODO: updating with shorter goal doesnt change spacing on task screen
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private DBHelper db;
 
     private LinearLayout welcomeMsg;
+    private boolean editingTasks;
+    MenuItem editItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize task and entry managers and add listeners
         taskManager = new TaskManager(tasks);
+        editingTasks = false;
 
         Log.d("tasks", "there are: " + tasks.size() + "tasks");
         for (Task t: tasks){
@@ -104,10 +109,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void showWelcomeMsg(){
         welcomeMsg.setVisibility(View.VISIBLE);
+        editItem.setVisible(false);
     }
 
     private void hideWelcomeMsg(){
         welcomeMsg.setVisibility(View.GONE);
+        editItem.setVisible(true);
+        editingTasks = false;
     }
 
     public void addTask(Task task){
@@ -153,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        editItem = menu.findItem(R.id.edit_tasks);
         return true;
     }
 
@@ -168,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AddTaskActivity.class);
                 startActivityForResult(intent, ADD_TASK_REQUEST);
                 return true;
+            case R.id.edit_tasks:
+                onEditClicked();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -233,5 +244,15 @@ public class MainActivity extends AppCompatActivity {
         taskAdapter.clear();
         taskAdapter.addAll(taskManager.getAllTasks());
         taskAdapter.notifyDataSetChanged();
+    }
+
+    private void onEditClicked(){
+        if (editingTasks){
+            editItem.setIcon(R.drawable.ic_create_white_24dp);
+            editingTasks = false;
+        } else {
+            editItem.setIcon(R.drawable.ic_done_white_24dp);
+            editingTasks = true;
+        }
     }
 }

@@ -9,9 +9,10 @@
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
-    <string name="entryHint">Hours to Add</string>
+    <string name="entryHint">Completed</string>
+    <string name="commentHint">Comment(optional)</string>
     <string name="date">Date:</string>
-    <string name="hours">Time Completed:</string>
+    <string name="hours">Completed:</string>
     <string name="save">Save</string>
     <string name="addTask">Add Task</string>
     <string name="deleteTask">Delete Task</string>
@@ -28,5 +29,5 @@
     <string name="title_activity_add_entry">Add Entry</string>
     <string name="title_activity_view_task">View Task</string>
     <string name="title_activity_edit_entry">Edit Entry</string>
-    <string name="title_activity_edit_task">EditTaskActivity</string>
+    <string name="title_activity_edit_task">Edit Task</string>
 </resources>

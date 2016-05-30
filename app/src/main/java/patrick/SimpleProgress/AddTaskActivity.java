@@ -63,7 +63,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 } else if (name.equals("")) {
                     Toast.makeText(AddTaskActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();
                 } else if (goal.equals("")){
-                    Toast.makeText(AddTaskActivity.this, "Please enter time completed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddTaskActivity.this, "Please enter numerical goal", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(AddTaskActivity.this, "Please enter a goal between 0 and 10000", Toast.LENGTH_SHORT).show();
                 }

@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="patrick.SimpleProgress.MainActivity">
     <item
+        android:id="@+id/edit_tasks"
+        android:title="@string/edit"
+        android:icon="@drawable/ic_create_white_24dp"
+        app:showAsAction="always"
+        android:visible="false"/>
+    <item
         android:id="@+id/add_task"
         android:title="@string/addTask"
         android:icon="@drawable/ic_add_white_24dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

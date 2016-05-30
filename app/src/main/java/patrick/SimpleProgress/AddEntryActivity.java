@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class AddEntryActivity extends Activity {
 
@@ -22,7 +23,6 @@ public class AddEntryActivity extends Activity {
         Bundle extras = getIntent().getExtras();
 
         taskId = extras.getInt("taskId");
-        Log.d("addentry", "task id: " + taskId);
 
         ImageButton addEntryButton = (ImageButton) findViewById(R.id.btnAddEntry);
         ImageButton cancelEntryButton = (ImageButton) findViewById(R.id.btnCancelEntry);
@@ -32,13 +32,17 @@ public class AddEntryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String toAdd = toAddText.getText().toString().trim();
-                Log.d("addentry", "to add: " + toAdd);
+                Double toAddDbl = Double.parseDouble(toAdd);
 
-                Intent intent = new Intent();
-                intent.putExtra("taskId", taskId);
-                intent.putExtra("toAdd", toAdd);
-                setResult(RESULT_OK, intent);
-                finish();
+                if (toAdd == "" || toAddDbl < 0 || toAddDbl >= 10000){
+                    Toast.makeText(AddEntryActivity.this, "Please enter completed value between 0 and 10000", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent();
+                    intent.putExtra("taskId", taskId);
+                    intent.putExtra("toAdd", toAdd);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         });
 

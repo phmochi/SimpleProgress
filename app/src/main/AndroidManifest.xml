@@ -25,7 +25,7 @@
         <activity
             android:name=".AddEntryActivity"
             android:label="@string/title_activity_add_entry"
-            android:theme="@android:style/Theme.Holo.Dialog" />
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
         <activity
             android:name=".ViewTaskActivity"
             android:label="@string/title_activity_view_task"
