@@ -20,6 +20,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private EditText nameText;
     private EditText goalText;
     private Spinner spinner;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        db = DBHelper.getInstance(this);
 
         nameText = (EditText) findViewById(R.id.addTaskNameEdit);
         goalText = (EditText) findViewById(R.id.addTaskGoalEdit);
@@ -54,11 +57,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 String cycle = spinner.getSelectedItem().toString();
 
                 if (!name.equals("") && !goal.equals("") && isValidGoal(goal)) {
-                    Intent intent = new Intent();
-                    intent.putExtra("name", name);
-                    intent.putExtra("goal", goal);
-                    intent.putExtra("cycle", cycle);
-                    setResult(RESULT_OK, intent);
+                    db.addTask(new Task(name, Double.parseDouble(goal), Cycle.valueOf(cycle)));
+                    setResult(RESULT_OK, new Intent());
                     finish();
                 } else if (name.equals("")) {
                     Toast.makeText(AddTaskActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();

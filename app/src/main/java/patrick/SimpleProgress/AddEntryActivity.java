@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 public class AddEntryActivity extends Activity {
 
-    private int taskId;
+    private DBHelper db;
+    private Task task;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -22,7 +23,8 @@ public class AddEntryActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
 
-        taskId = extras.getInt("taskId");
+        task = extras.getParcelable(MainActivity.TASK);
+        db = DBHelper.getInstance(this);
 
         ImageButton addEntryButton = (ImageButton) findViewById(R.id.btnAddEntry);
         ImageButton cancelEntryButton = (ImageButton) findViewById(R.id.btnCancelEntry);
@@ -37,9 +39,8 @@ public class AddEntryActivity extends Activity {
                 if (toAdd == "" || toAddDbl < 0 || toAddDbl >= 10000){
                     Toast.makeText(AddEntryActivity.this, "Please enter completed value between 0 and 10000", Toast.LENGTH_SHORT).show();
                 } else {
+                    db.addEntry(new Entry(task.getId(),toAddDbl));
                     Intent intent = new Intent();
-                    intent.putExtra("taskId", taskId);
-                    intent.putExtra("toAdd", toAdd);
                     setResult(RESULT_OK, intent);
                     finish();
                 }

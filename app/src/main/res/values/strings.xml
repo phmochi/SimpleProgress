@@ -30,4 +30,6 @@
     <string name="title_activity_view_task">View Task</string>
     <string name="title_activity_edit_entry">Edit Entry</string>
     <string name="title_activity_edit_task">Edit Task</string>
+    <string name="title_activity_view_task_overview">ViewTaskOverviewActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

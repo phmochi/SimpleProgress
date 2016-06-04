@@ -26,6 +26,7 @@ public class EditEntryActivity extends AppCompatActivity {
     private EditText editEntryHours;
     private EditText editEntryDate;
     private Calendar myCalendar;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class EditEntryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle extras = getIntent().getExtras();
+        db = DBHelper.getInstance(this);
 
         sdf = new SimpleDateFormat("MM/dd/yyyy");
         editEntryHours = (EditText) findViewById(R.id.editEntryHours);
@@ -85,10 +87,9 @@ public class EditEntryActivity extends AppCompatActivity {
                 if (date != null && !hours.equals("")) {
                     entry.setDate(date);
                     entry.setHours(Double.parseDouble(hours));
+                    db.updateEntry(entry);
 
-                    Intent intent = new Intent();
-                    intent.putExtra("entry", entry);
-                    setResult(RESULT_OK, intent);
+                    setResult(RESULT_OK, new Intent());
                     finish();
                 } else if (date == null){
                     Toast.makeText(EditEntryActivity.this, "Please enter a valid date", Toast.LENGTH_SHORT).show();

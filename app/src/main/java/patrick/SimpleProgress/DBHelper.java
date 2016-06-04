@@ -17,6 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 7;
     private static final String DATABASE_NAME = "hourlog.db";
+    private static DBHelper instance;
 
     //table for tasks
     private static final String TABLE_TASKS = "tasks";
@@ -32,7 +33,14 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String ENTRY_HOURS = "hours";
     private static final String ENTRY_DATE = "date";
 
-    public DBHelper(Context context){
+    public static synchronized DBHelper getInstance(Context context){
+        if (instance == null){
+            instance = new DBHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    private DBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -83,11 +91,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public Task getTask(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_TASKS, new String[] { TASK_ID, TASK_NAME, TASK_GOAL }, TASK_ID + "=?",
+        Cursor cursor = db.query(TABLE_TASKS, new String[] { TASK_ID, TASK_NAME, TASK_GOAL, TASK_CYCLE }, TASK_ID + "=?",
                 new String[] {String.valueOf(id)}, null, null, null, null);
+
         if (cursor != null){
             cursor.moveToFirst();
-
         }
 
         Task task = makeTaskFromCursor(cursor);
@@ -149,7 +157,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()){
             do{
-               Task task = makeTaskFromCursor(cursor);
+                Task task = makeTaskFromCursor(cursor);
                 taskList.add(task);
             } while (cursor.moveToNext());
         }

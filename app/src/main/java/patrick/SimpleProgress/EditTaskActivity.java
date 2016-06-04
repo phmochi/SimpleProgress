@@ -2,10 +2,12 @@ package patrick.SimpleProgress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private EditText nameText;
     private EditText goalText;
     private Spinner spinner;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class EditTaskActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle extras = getIntent().getExtras();
+        db = DBHelper.getInstance(this);
 
         nameText = (EditText) findViewById(R.id.editTaskNameEdit);
         goalText = (EditText) findViewById(R.id.editTaskGoalEdit);
@@ -39,7 +43,7 @@ public class EditTaskActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, values);
         spinner.setAdapter(adapter);
 
-        task = extras.getParcelable("task");
+        task = extras.getParcelable(MainActivity.TASK);
 
         nameText.setText(task.getName());
         goalText.setText(String.valueOf(task.getGoal()));
@@ -66,9 +70,8 @@ public class EditTaskActivity extends AppCompatActivity {
                 Double goalDbl = Double.parseDouble(goal);
 
                 if (!name.equals("") && !goal.equals("") && isValidGoal(goal)) {
-                    Intent intent = new Intent();
-                    intent.putExtra("task", new Task(task.getId(), name, Double.parseDouble(goal), Cycle.valueOf(cycle)));
-                    setResult(RESULT_OK, intent);
+                    db.updateTask(new Task(task.getId(), name, goalDbl, Cycle.valueOf((cycle))));
+                    setResult(RESULT_OK, new Intent());
                     finish();
                 } else if (name.equals("")) {
                     Toast.makeText(EditTaskActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();

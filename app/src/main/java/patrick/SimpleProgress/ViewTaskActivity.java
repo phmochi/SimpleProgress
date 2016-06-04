@@ -43,7 +43,7 @@ public class ViewTaskActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        db = new DBHelper(this);
+        db = DBHelper.getInstance(this);
         entriesToRemove = new ArrayList<>();
         entriesToUpdate = new ArrayList<>();
         entryListView = (ListView) findViewById(R.id.entryListView);
@@ -159,7 +159,7 @@ public class ViewTaskActivity extends AppCompatActivity {
                 break;
             case EDIT_TASK_REQUEST:
                 if (resultCode == RESULT_OK){
-                    Task t = data.getParcelableExtra("task");
+                    Task t = data.getParcelableExtra(MainActivity.TASK);
                     updateTask(t);
                     taskUpdated = true;
                 }
