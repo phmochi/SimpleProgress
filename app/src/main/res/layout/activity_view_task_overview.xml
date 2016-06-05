@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="patrick.SimpleProgress.ViewTaskOverviewActivity">
+    tools:context=".ViewTaskActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -33,8 +33,8 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v4.view.PagerTitleStrip
-            android:id="@+id/taskTitleStrip"
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/taskTabStrip"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:paddingTop="15dp"

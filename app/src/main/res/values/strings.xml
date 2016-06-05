@@ -11,6 +11,7 @@
     <string name="cancel">Cancel</string>
     <string name="entryHint">Completed</string>
     <string name="commentHint">Comment(optional)</string>
+    <string name="sixtyHint">/60 (optional)</string>
     <string name="date">Date:</string>
     <string name="hours">Completed:</string>
     <string name="save">Save</string>
@@ -21,6 +22,9 @@
     <string name="hello">Hello!</string>
     <string name="getStartedTasks">Add a task from the toolbar ( + ) to get started!</string>
     <string name="getStartedGoals">Set a numerical goal to progress towards.</string>
+    <string name="comment">Comment:</string>
+    <string name="taskHistoryMsg">Oops!</string>
+    <string name="taskHistoryMsg2">Graph history will be coming soon!</string>
     <string-array name="contextMenu">
         <item>Edit</item>
         <item>Delete</item>

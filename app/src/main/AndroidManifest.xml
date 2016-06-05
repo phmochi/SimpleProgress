@@ -27,10 +27,6 @@
             android:label="@string/title_activity_add_entry"
             android:theme="@android:style/Theme.Holo.Light.Dialog" />
         <activity
-            android:name=".ViewTaskActivity"
-            android:label="@string/title_activity_view_task"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".EditEntryActivity"
             android:label="@string/title_activity_edit_entry"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -39,7 +35,7 @@
             android:label="@string/title_activity_edit_task"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ViewTaskOverviewActivity"
+            android:name=".ViewTaskActivity"
             android:label="@string/title_activity_view_task_overview"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

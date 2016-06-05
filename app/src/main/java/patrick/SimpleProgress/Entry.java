@@ -13,22 +13,33 @@ public class Entry implements Parcelable {
     private int taskId;
     private double hours;
     private Date date;
+    private String comment;
 
     public Entry(int taskId, double hours){
         this.taskId = taskId;
         this.hours = hours;
         date = new Date();
+        comment = "";
     }
 
     public Entry(double hours, Date date){
         this.hours = hours;
         this.date = date;
+        comment = "";
+    }
+
+    public Entry(int taskId, double hours, String comment){
+        this.taskId = taskId;
+        this.hours = hours;
+        this.comment = comment;
+        date = new Date();
     }
 
     public Entry(int taskId, double hours, Date date){
         this.taskId = taskId;
         this.hours = hours;
         this.date = date;
+        comment = "";
     }
 
     private Entry(Parcel in){
@@ -36,6 +47,7 @@ public class Entry implements Parcelable {
         taskId = in.readInt();
         hours = in.readDouble();
         date = new Date(in.readLong());
+        comment = in.readString();
     }
 
     public static final Parcelable.Creator<Entry> CREATOR = new Parcelable.Creator<Entry>(){
@@ -50,11 +62,12 @@ public class Entry implements Parcelable {
         }
     };
 
-    public Entry(int id, int taskId, double hours, Date date){
+    public Entry(int id, int taskId, double hours, Date date, String comment){
         this.id = id;
         this.taskId = taskId;
         this.hours = hours;
         this.date = date;
+        this.comment = comment;
     }
 
 
@@ -96,10 +109,19 @@ public class Entry implements Parcelable {
         dest.writeInt(taskId);
         dest.writeDouble(hours);
         dest.writeLong(date.getTime());
+        dest.writeString(comment);
     }
 
     @Override
     public int describeContents(){
         return 0;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

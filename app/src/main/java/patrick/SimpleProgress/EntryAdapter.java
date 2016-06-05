@@ -31,10 +31,12 @@ public class EntryAdapter extends ArrayAdapter<Entry> {
 
         TextView entryHours = (TextView) convertView.findViewById(R.id.entryHours);
         TextView entryDate = (TextView) convertView.findViewById((R.id.entryDate));
+        TextView entryComment = (TextView) convertView.findViewById(R.id.entryComment);
 
         DecimalFormat format = new DecimalFormat("0.##");
         entryHours.setText(format.format(entry.getHours()));
         entryDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(entry.getDate()));
+        entryComment.setText(entry.getComment());
 
         return convertView;
     }

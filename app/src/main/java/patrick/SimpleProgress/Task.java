@@ -3,6 +3,8 @@ package patrick.SimpleProgress;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 /**
  * Created by Patrick on 5/10/2016.
  */
@@ -11,20 +13,42 @@ public class Task implements Parcelable {
     private int id;
     private String name;
     private double goal;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     private Cycle cycle;
     private EntryManager entryManager;
+    private Date date;
 
     public Task(String name, double goal, Cycle cycle){
         this.name = name;
         this.goal = goal;
         this.cycle = cycle;
+        date = new Date();
     }
 
+/*
     public Task(int id, String name, double goal, Cycle cycle){
         this.id = id;
         this.name = name;
         this.goal = goal;
         this.cycle = cycle;
+        date = new Date();
+    }
+*/
+
+    public Task(int id, String name, double goal, Cycle cycle, Date date){
+        this.id = id;
+        this.name = name;
+        this.goal = goal;
+        this.cycle = cycle;
+        this.date = date;
     }
 
     private Task(Parcel in){
@@ -32,6 +56,7 @@ public class Task implements Parcelable {
         name = in.readString();
         goal = in.readDouble();
         cycle = Cycle.valueOf(in.readString());
+        date = new Date(in.readLong());
     }
 
     public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>(){
@@ -48,6 +73,7 @@ public class Task implements Parcelable {
         dest.writeString(name);
         dest.writeDouble(goal);
         dest.writeString(cycle.toString());
+        dest.writeLong(date.getTime());
     }
 
     @Override

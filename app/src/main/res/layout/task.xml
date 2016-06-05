@@ -17,7 +17,7 @@
             android:textSize="25sp"/>
 
         <TextView
-            android:id="@+id/taskCycleText"
+            android:id="@+id/taskElapsedText"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"

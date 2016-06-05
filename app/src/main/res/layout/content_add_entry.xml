@@ -12,6 +12,22 @@
         android:inputType="numberDecimal"
         android:hint="@string/entryHint" />
 
+    <EditText
+        android:id="@+id/editToAddSixty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:inputType="number"
+        android:hint="@string/sixtyHint"/>
+
+    <EditText
+        android:id="@+id/editComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="@string/commentHint"/>
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

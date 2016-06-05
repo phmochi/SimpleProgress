@@ -2,29 +2,25 @@ package patrick.SimpleProgress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 
 //TODO: list position (drag and drop)
-//TODO: Only show active entries in entrylist
 //TODO: Swipe left to show graphs on viewtask screen
-//TODO: updating with shorter goal doesnt change spacing on task screen
-//TODO: sort tasks by uncompleted
-//TODO: add task field (/60)
+//TODO: updating with shorter goal doesnt change spacing on task screen (need to redraw but delay issue)
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private DBHelper db;
 
     private LinearLayout welcomeMsg;
-    MenuItem editItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         db = DBHelper.getInstance(this);;
-
         welcomeMsg = (LinearLayout) findViewById(R.id.welcomeMsgLayout);
 
         ArrayList<Task> tasks = db.getAllTasks();
@@ -89,13 +83,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(MainActivity.this, ViewTaskOverviewActivity.class);
+                Intent intent = new Intent(MainActivity.this, ViewTaskActivity.class);
                 Task task = (Task) taskListView.getItemAtPosition(position);
                 intent.putExtra(TASK, task);
                 startActivityForResult(intent, VIEW_TASK_REQUEST);
                 return true;
             }
         });
+
+        updateView();
     }
 
     private void updateTaskManager(){
@@ -126,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        editItem = menu.findItem(R.id.edit_tasks);
         return true;
     }
 
@@ -153,12 +148,28 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK){
             updateView();
+
+         /*   Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    recreate();
+                }
+            }, 1);*/
         }
     }
 
     private void updateAdapter(){
         taskAdapter.clear();
         taskAdapter.addAll(taskManager.getAllTasks());
+        taskAdapter.sort(new Comparator<Task>() {
+            @Override
+            public int compare(Task lhs, Task rhs) {
+                double lhsCompleted = lhs.getCompleted() / lhs.getGoal();
+                double rhsCompleted = rhs.getCompleted() / rhs.getGoal();
+                return Double.compare(lhsCompleted, rhsCompleted);
+            }
+        });
         taskAdapter.notifyDataSetChanged();
     }
 }

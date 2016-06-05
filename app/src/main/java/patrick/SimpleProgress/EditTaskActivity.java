@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -24,6 +26,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private EditText goalText;
     private Spinner spinner;
     private DBHelper db;
+    private DecimalFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         db = DBHelper.getInstance(this);
+        format = new DecimalFormat("0.##");
 
         nameText = (EditText) findViewById(R.id.editTaskNameEdit);
         goalText = (EditText) findViewById(R.id.editTaskGoalEdit);
@@ -46,7 +50,7 @@ public class EditTaskActivity extends AppCompatActivity {
         task = extras.getParcelable(MainActivity.TASK);
 
         nameText.setText(task.getName());
-        goalText.setText(String.valueOf(task.getGoal()));
+        goalText.setText(format.format(task.getGoal()));
 
         int spinnerPosition = adapter.getPosition(task.getCycle().toString());
         spinner.setSelection(spinnerPosition);
@@ -70,7 +74,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 Double goalDbl = Double.parseDouble(goal);
 
                 if (!name.equals("") && !goal.equals("") && isValidGoal(goal)) {
-                    db.updateTask(new Task(task.getId(), name, goalDbl, Cycle.valueOf((cycle))));
+                    db.updateTask(new Task(task.getId(), name, goalDbl, Cycle.valueOf((cycle)), task.getDate()));
                     setResult(RESULT_OK, new Intent());
                     finish();
                 } else if (name.equals("")) {

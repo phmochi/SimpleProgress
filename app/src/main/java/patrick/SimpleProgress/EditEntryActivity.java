@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,8 +26,10 @@ public class EditEntryActivity extends AppCompatActivity {
     private SimpleDateFormat sdf;
     private EditText editEntryHours;
     private EditText editEntryDate;
+    private EditText editEntryComment;
     private Calendar myCalendar;
     private DBHelper db;
+    private DecimalFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +42,17 @@ public class EditEntryActivity extends AppCompatActivity {
         db = DBHelper.getInstance(this);
 
         sdf = new SimpleDateFormat("MM/dd/yyyy");
+        format = new DecimalFormat("0.##");
         editEntryHours = (EditText) findViewById(R.id.editEntryHours);
         editEntryDate = (EditText) findViewById(R.id.editEntryDate);
+        editEntryComment = (EditText) findViewById(R.id.editEntryComment);
         myCalendar = Calendar.getInstance();
 
         entry = extras.getParcelable("entry");
 
         editEntryDate.setText(sdf.format(entry.getDate()));
-        editEntryHours.setText(String.valueOf(entry.getHours()));
+        editEntryHours.setText(format.format(entry.getHours()));
+        editEntryComment.setText(entry.getComment());
 
         final DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -82,19 +88,23 @@ public class EditEntryActivity extends AppCompatActivity {
             case R.id.btnOk:
                 String hours = editEntryHours.getText().toString().trim();
                 String dateString = editEntryDate.getText().toString().trim();
+                String comment = editEntryComment.getText().toString().trim();
                 Date date = sdf.parse(dateString, new ParsePosition(0));
 
-                if (date != null && !hours.equals("")) {
+                if (date != null && !hours.equals("") && comment.length() <= 50) {
                     entry.setDate(date);
                     entry.setHours(Double.parseDouble(hours));
+                    entry.setComment(comment);
                     db.updateEntry(entry);
 
                     setResult(RESULT_OK, new Intent());
                     finish();
                 } else if (date == null){
                     Toast.makeText(EditEntryActivity.this, "Please enter a valid date", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (hours.equals("")) {
                     Toast.makeText(EditEntryActivity.this, "Please enter completed value", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditEntryActivity.this, "Please keep comments under 50 characters", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.btnCancel:
