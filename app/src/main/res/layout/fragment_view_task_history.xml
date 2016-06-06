@@ -6,31 +6,32 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ViewTaskActivity$PlaceholderFragment">
+    tools:context=".ViewTaskActivity$TaskHistoryFragment">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/taskHistoryMsg"
-        android:id="@+id/textView"
-        android:textSize="48dp"
-        android:textColor="@color/softblue"
-        android:layout_marginTop="22dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="22dp"
         android:layout_marginStart="22dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="22dp"
+        android:text="@string/taskHistoryMsg"
+        android:textColor="@color/softblue"
+        android:textSize="48sp" />
+
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="@string/taskHistoryMsg2"
-        android:id="@+id/textView2"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/textView"
         android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="28dp"
+        android:text="@string/taskHistoryMsg2"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

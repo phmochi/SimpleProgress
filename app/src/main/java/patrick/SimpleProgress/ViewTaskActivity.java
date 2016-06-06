@@ -1,22 +1,20 @@
 package patrick.SimpleProgress;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -72,7 +70,7 @@ public class ViewTaskActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch(id){
+        switch (id) {
             case R.id.delete_task:
                 db.deleteTask(task.getId());
                 db.deleteEntriesWithId(task.getId());
@@ -90,13 +88,13 @@ public class ViewTaskActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         setResult(RESULT_OK, new Intent());
         finish();
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
@@ -111,7 +109,7 @@ public class ViewTaskActivity extends AppCompatActivity {
         }
     }
 
-    private void updateView(){
+    private void updateView() {
         getSupportActionBar().setTitle(task.getName());
         mSectionsPagerAdapter.notifyDataSetChanged();
     }
@@ -129,7 +127,7 @@ public class ViewTaskActivity extends AppCompatActivity {
         private Task task;
         private DecimalFormat format;
 
-        public TaskOverviewFragment () {
+        public TaskOverviewFragment() {
         }
 
         public static TaskOverviewFragment newInstance(Task t) {
@@ -142,7 +140,7 @@ public class ViewTaskActivity extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState){
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.content_view_task, container, false);
             format = new DecimalFormat("0.##");
             taskGoalView = (TextView) rootView.findViewById(R.id.viewTaskGoalText);
@@ -160,7 +158,7 @@ public class ViewTaskActivity extends AppCompatActivity {
 
             registerForContextMenu(entryListView);
 
-            entryListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            entryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     view.showContextMenu();
@@ -171,16 +169,16 @@ public class ViewTaskActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             getActivity().getMenuInflater().inflate(R.menu.entry_context, menu);
         }
 
         @Override
-        public boolean onContextItemSelected(MenuItem item){
+        public boolean onContextItemSelected(MenuItem item) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             Entry entry = ea.getItem(info.position);
 
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.entryEdit:
                     Intent intent = new Intent(getContext(), EditEntryActivity.class);
                     intent.putExtra(ENTRY, entry);
@@ -196,12 +194,12 @@ public class ViewTaskActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data){
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
 
-            switch(requestCode){
+            switch (requestCode) {
                 case EDIT_ENTRY_REQUEST:
-                    if (resultCode == RESULT_OK){
+                    if (resultCode == RESULT_OK) {
                         updateEntryView();
                     }
                     break;
@@ -210,19 +208,20 @@ public class ViewTaskActivity extends AppCompatActivity {
             }
         }
 
-        private void updateTaskView(){
+        private void updateTaskView() {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(task.getName());
             taskGoalView.setText(format.format(task.getGoal()));
             taskCycleView.setText(task.getCycle().toString());
         }
 
-        private void updateEntryView(){
+        private void updateEntryView() {
             entryManager = new EntryManager(db.getActiveEntriesFor(task.getId()));
             ea.clear();
             ea.addAll(entryManager.getAllEntries());
             ea.notifyDataSetChanged();
         }
     }
+
     /**
      * A placeholder fragment containing a simple view.
      */

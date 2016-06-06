@@ -1,7 +1,6 @@
 package patrick.SimpleProgress;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +10,20 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Created by Patrick on 5/15/2016.
  */
 public class EntryAdapter extends ArrayAdapter<Entry> {
-    public EntryAdapter(Context context, ArrayList<Entry> entries){
+    public EntryAdapter(Context context, ArrayList<Entry> entries) {
         super(context, 0, entries);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         Entry entry = getItem(position);
 
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry, parent, false);
         }
 

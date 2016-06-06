@@ -9,40 +9,51 @@ import java.util.Date;
  * Created by Patrick on 5/9/2016.
  */
 public class Entry implements Parcelable {
+    public static final Parcelable.Creator<Entry> CREATOR = new Parcelable.Creator<Entry>() {
+        @Override
+        public Entry createFromParcel(Parcel in) {
+            return new Entry(in);
+        }
+
+        @Override
+        public Entry[] newArray(int size) {
+            return new Entry[size];
+        }
+    };
     private int id;
     private int taskId;
     private double hours;
     private Date date;
     private String comment;
 
-    public Entry(int taskId, double hours){
+    public Entry(int taskId, double hours) {
         this.taskId = taskId;
         this.hours = hours;
         date = new Date();
         comment = "";
     }
 
-    public Entry(double hours, Date date){
+    public Entry(double hours, Date date) {
         this.hours = hours;
         this.date = date;
         comment = "";
     }
 
-    public Entry(int taskId, double hours, String comment){
+    public Entry(int taskId, double hours, String comment) {
         this.taskId = taskId;
         this.hours = hours;
         this.comment = comment;
         date = new Date();
     }
 
-    public Entry(int taskId, double hours, Date date){
+    public Entry(int taskId, double hours, Date date) {
         this.taskId = taskId;
         this.hours = hours;
         this.date = date;
         comment = "";
     }
 
-    private Entry(Parcel in){
+    private Entry(Parcel in) {
         id = in.readInt();
         taskId = in.readInt();
         hours = in.readDouble();
@@ -50,19 +61,7 @@ public class Entry implements Parcelable {
         comment = in.readString();
     }
 
-    public static final Parcelable.Creator<Entry> CREATOR = new Parcelable.Creator<Entry>(){
-        @Override
-        public Entry createFromParcel(Parcel in){
-            return new Entry(in);
-        }
-
-        @Override
-        public Entry[] newArray(int size){
-            return new Entry[size];
-        }
-    };
-
-    public Entry(int id, int taskId, double hours, Date date, String comment){
+    public Entry(int id, int taskId, double hours, Date date, String comment) {
         this.id = id;
         this.taskId = taskId;
         this.hours = hours;
@@ -104,7 +103,7 @@ public class Entry implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags){
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeInt(taskId);
         dest.writeDouble(hours);
@@ -113,7 +112,7 @@ public class Entry implements Parcelable {
     }
 
     @Override
-    public int describeContents(){
+    public int describeContents() {
         return 0;
     }
 

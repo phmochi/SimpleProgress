@@ -4,13 +4,13 @@
     tools:context="patrick.SimpleProgress.MainActivity">
     <item
         android:id="@+id/btnCancel"
-        android:title="@string/addTask"
         android:icon="@drawable/ic_clear_white_24dp"
+        android:title="@string/addTask"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/btnOk"
-        android:title="@string/addTask"
         android:icon="@drawable/ic_done_white_24dp"
+        android:title="@string/addTask"
         app:showAsAction="ifRoom" />
 
 </menu>

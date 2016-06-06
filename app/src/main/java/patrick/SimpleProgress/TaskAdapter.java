@@ -2,7 +2,6 @@ package patrick.SimpleProgress;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +21,15 @@ import java.util.concurrent.TimeUnit;
 public class TaskAdapter extends ArrayAdapter<Task> {
     private Task task;
 
-    public TaskAdapter(Context context, ArrayList<Task> tasks){
+    public TaskAdapter(Context context, ArrayList<Task> tasks) {
         super(context, 0, tasks);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         task = getItem(position);
 
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.task, parent, false);
         }
 
@@ -48,7 +47,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         taskCompleted.setText(format.format(done));
         taskGoal.setText("/" + format.format(goal));
 
-        switch (task.getCycle().toString()){
+        switch (task.getCycle().toString()) {
             case "daily":
                 elapsed += "Day ";
                 break;
@@ -66,7 +65,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         taskElapsed.setText(elapsed);
 
-        if (done > goal){
+        if (done >= goal) {
             taskCompleted.setTextColor(ContextCompat.getColor(context, R.color.softgreen));
         } else {
             taskCompleted.setTextColor(ContextCompat.getColor(context, R.color.softred));
@@ -75,13 +74,13 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         return convertView;
     }
 
-    private String addElapsed(String s){
+    private String addElapsed(String s) {
         Date dateStart = task.getDate();
         Date dateEnd = new Date();
         int count = 1;
 
 
-        switch (task.getCycle().toString()){
+        switch (task.getCycle().toString()) {
             case "daily":
                 count += getDaysBetween(dateStart, dateEnd);
                 break;
@@ -98,12 +97,12 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         return s + String.valueOf(count);
     }
 
-    private int getDaysBetween(Date d1, Date d2){
+    private int getDaysBetween(Date d1, Date d2) {
         long diff = d2.getTime() - d1.getTime();
         return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    private int getWeeksBetween(Date d1, Date d2){
+    private int getWeeksBetween(Date d1, Date d2) {
         Calendar startCalendar = new GregorianCalendar();
         startCalendar.setTime(d1);
         Calendar endCalendar = new GregorianCalendar();
@@ -115,7 +114,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         return diffWeek;
     }
 
-    private int getMonthsBetween(Date d1, Date d2){
+    private int getMonthsBetween(Date d1, Date d2) {
         Calendar startCalendar = new GregorianCalendar();
         startCalendar.setTime(d1);
         Calendar endCalendar = new GregorianCalendar();

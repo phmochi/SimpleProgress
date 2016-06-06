@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.format.DateUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,8 +18,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "hourlog.db";
-    private static DBHelper instance;
-
     //table for tasks
     private static final String TABLE_TASKS = "tasks";
     private static final String TASK_ID = "_id";
@@ -28,7 +25,6 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TASK_GOAL = "goal";
     private static final String TASK_CYCLE = "cycle";
     private static final String TASK_DATE = "date";
-
     //table for entries
     private static final String TABLE_ENTRIES = "entries";
     private static final String ENTRY_ID = "_id";
@@ -36,20 +32,21 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String ENTRY_HOURS = "hours";
     private static final String ENTRY_DATE = "date";
     private static final String ENTRY_COMMENT = "comment";
+    private static DBHelper instance;
 
-    public static synchronized DBHelper getInstance(Context context){
-        if (instance == null){
+    private DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static synchronized DBHelper getInstance(Context context) {
+        if (instance == null) {
             instance = new DBHelper(context.getApplicationContext());
         }
         return instance;
     }
 
-    private DBHelper(Context context){
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
     @Override
-    public void onCreate(SQLiteDatabase database){
+    public void onCreate(SQLiteDatabase database) {
         database.execSQL("CREATE TABLE " + TABLE_TASKS + "(" + TASK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TASK_NAME + " TEXT NOT NULL," +
                 TASK_GOAL + " REAL NOT NULL, " + TASK_CYCLE + " TEXT NOT NULL," + TASK_DATE + " INTEGER NOT NULL);");
         database.execSQL("CREATE TABLE " + TABLE_ENTRIES + " (" + ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -58,14 +55,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ENTRIES);
 
         onCreate(db);
     }
 
-    public int addTask(Task task){
+    public int addTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -80,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return (int) id;
     }
 
-    public int addEntry(Entry entry){
+    public int addEntry(Entry entry) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -95,13 +92,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return (int) id;
     }
 
-    public Task getTask(int id){
+    public Task getTask(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_TASKS, new String[] { TASK_ID, TASK_NAME, TASK_GOAL, TASK_CYCLE, TASK_DATE }, TASK_ID + "=?",
-                new String[] {String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_TASKS, new String[]{TASK_ID, TASK_NAME, TASK_GOAL, TASK_CYCLE, TASK_DATE}, TASK_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
 
@@ -109,7 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return task;
     }
 
-    public ArrayList<Task> getAllTasks(){
+    public ArrayList<Task> getAllTasks() {
         String selectQuery = "SELECT * FROM " + TABLE_TASKS;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -120,7 +117,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return taskList;
     }
 
-    public ArrayList<Entry> getAllEntries(){
+    public ArrayList<Entry> getAllEntries() {
         String selectQuery = "SELECT * FROM " + TABLE_ENTRIES;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -131,7 +128,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return entryList;
     }
 
-    public ArrayList<Entry> getEntriesFor(int id){
+    public ArrayList<Entry> getEntriesFor(int id) {
         String selectQuery = "SELECT * FROM " + TABLE_ENTRIES + " WHERE " + ENTRY_TASK + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -142,7 +139,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return entryList;
     }
 
-    public ArrayList<Entry> getActiveEntriesFor(int id){
+    public ArrayList<Entry> getActiveEntriesFor(int id) {
         String selectQuery = "SELECT * FROM " + TABLE_ENTRIES + " WHERE " + ENTRY_TASK + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -150,10 +147,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ArrayList<Entry> entryList = addEntriesFromCursor(cursor);
 
-        cursor = db.query(TABLE_TASKS, new String[] { TASK_CYCLE }, TASK_ID + "=?",
-                new String[] {String.valueOf(id)}, null, null, null, null);
+        cursor = db.query(TABLE_TASKS, new String[]{TASK_CYCLE}, TASK_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
 
-        if (cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
         }
 
@@ -163,36 +160,36 @@ public class DBHelper extends SQLiteOpenHelper {
         return entryList;
     }
 
-    private void removeInactiveEntries(ArrayList<Entry> entries, Cycle c){
+    private void removeInactiveEntries(ArrayList<Entry> entries, Cycle c) {
         ArrayList<Entry> toRemove = new ArrayList<>();
 
-        for (Entry e:entries){
-            if (!isActive(e, c)){
+        for (Entry e : entries) {
+            if (!isActive(e, c)) {
                 toRemove.add(e);
             }
         }
 
-        for (Entry e:toRemove){
+        for (Entry e : toRemove) {
             entries.remove(e);
         }
     }
 
-    private boolean isActive(Entry e, Cycle c){
+    private boolean isActive(Entry e, Cycle c) {
         Date d = e.getDate();
 
-        switch(c){
+        switch (c) {
             case daily:
-                if (isToday(d)){
+                if (isToday(d)) {
                     return true;
                 }
                 break;
             case weekly:
-                if (isInWeek(d)){
+                if (isInWeek(d)) {
                     return true;
                 }
                 break;
             case monthly:
-                if (isInMonth(d)){
+                if (isInMonth(d)) {
                     return true;
                 }
                 break;
@@ -202,11 +199,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    private boolean isToday(Date date){
+    private boolean isToday(Date date) {
         return DateUtils.isToday(date.getTime());
     }
 
-    private boolean isInWeek(Date date){
+    private boolean isInWeek(Date date) {
         Calendar currentCalendar = Calendar.getInstance();
 
         int week = currentCalendar.get(Calendar.WEEK_OF_YEAR);
@@ -221,7 +218,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return week == entryWeek && year == entryYear;
     }
 
-    private boolean isInMonth(Date date){
+    private boolean isInMonth(Date date) {
         Calendar currentCalendar = Calendar.getInstance();
 
         int month = currentCalendar.get(Calendar.MONTH);
@@ -236,11 +233,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return month == entryMonth && year == entryYear;
     }
 
-    private ArrayList<Entry> addEntriesFromCursor(Cursor cursor){
+    private ArrayList<Entry> addEntriesFromCursor(Cursor cursor) {
         ArrayList<Entry> entryList = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
-            do{
+            do {
                 int id = cursor.getInt(0);
                 int taskId = cursor.getInt(1);
                 double hours = cursor.getDouble(2);
@@ -254,11 +251,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return entryList;
     }
 
-    private ArrayList<Task> addTasksFromCursor(Cursor cursor){
+    private ArrayList<Task> addTasksFromCursor(Cursor cursor) {
         ArrayList<Task> taskList = new ArrayList<>();
 
-        if (cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 Task task = makeTaskFromCursor(cursor);
                 taskList.add(task);
             } while (cursor.moveToNext());
@@ -266,7 +263,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return taskList;
     }
 
-    private Task makeTaskFromCursor(Cursor c){
+    private Task makeTaskFromCursor(Cursor c) {
         int id = c.getInt(0);
         String name = c.getString(1);
         double goal = c.getDouble(2);
@@ -276,18 +273,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return new Task(id, name, goal, cycle, date);
     }
 
-    public void deleteTask(int taskId){
+    public void deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TASKS, TASK_ID + " = ?", new String[]{String.valueOf(taskId)});
         db.close();
     }
 
-    public void deleteEntries(ArrayList<Entry> entries){
+    public void deleteEntries(ArrayList<Entry> entries) {
         SQLiteDatabase db = this.getWritableDatabase();
         int id;
         ArrayList<String> entryIds = new ArrayList<>();
 
-        for (Entry e: entries){
+        for (Entry e : entries) {
             id = e.getId();
             entryIds.add(String.valueOf(id));
         }
@@ -296,20 +293,20 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteEntry(Entry entry){
+    public void deleteEntry(Entry entry) {
         SQLiteDatabase db = this.getWritableDatabase();
         int id = entry.getId();
         db.delete(TABLE_ENTRIES, ENTRY_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
-    public void deleteEntriesWithId(int taskId){
+    public void deleteEntriesWithId(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ENTRIES, ENTRY_TASK + " =? ", new String[]{String.valueOf(taskId)});
         db.close();
     }
 
-    public void updateTask(Task t){
+    public void updateTask(Task t) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -317,11 +314,11 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(TASK_GOAL, t.getGoal());
         cv.put(TASK_CYCLE, t.getCycle().toString());
 
-        db.update(TABLE_TASKS, cv, "_id="+t.getId(), null);
+        db.update(TABLE_TASKS, cv, "_id=" + t.getId(), null);
         db.close();
     }
 
-    public void updateEntry(Entry e){
+    public void updateEntry(Entry e) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -329,7 +326,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(ENTRY_HOURS, e.getHours());
         cv.put(ENTRY_COMMENT, e.getComment());
 
-        db.update(TABLE_ENTRIES, cv, "_id="+e.getId(), null);
+        db.update(TABLE_ENTRIES, cv, "_id=" + e.getId(), null);
         db.close();
     }
 }

@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -75,16 +73,16 @@ public class EditEntryActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_editbar, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch(id){
+        switch (id) {
             case R.id.btnOk:
                 String hours = editEntryHours.getText().toString().trim();
                 String dateString = editEntryDate.getText().toString().trim();
@@ -99,7 +97,7 @@ public class EditEntryActivity extends AppCompatActivity {
 
                     setResult(RESULT_OK, new Intent());
                     finish();
-                } else if (date == null){
+                } else if (date == null) {
                     Toast.makeText(EditEntryActivity.this, "Please enter a valid date", Toast.LENGTH_SHORT).show();
                 } else if (hours.equals("")) {
                     Toast.makeText(EditEntryActivity.this, "Please enter completed value", Toast.LENGTH_SHORT).show();

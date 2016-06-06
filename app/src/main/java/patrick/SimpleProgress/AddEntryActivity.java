@@ -2,11 +2,8 @@ package patrick.SimpleProgress;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -39,22 +36,22 @@ public class AddEntryActivity extends Activity {
                 String toAddSixty = sixtyText.getText().toString().trim();
                 Double toAddDbl = 0.0;
 
-                if (toAdd.length() > 0){
+                if (toAdd.length() > 0) {
                     toAddDbl += Double.parseDouble(toAdd);
                 }
 
-                if (toAddSixty.length() > 0){
-                    toAddDbl += Double.parseDouble(toAddSixty)/60;
+                if (toAddSixty.length() > 0) {
+                    toAddDbl += Double.parseDouble(toAddSixty) / 60;
                 }
 
                 String comment = commentText.getText().toString().trim();
 
-                if (toAddDbl < 0 || toAddDbl >= 10000){
+                if (toAddDbl < 0 || toAddDbl >= 10000) {
                     Toast.makeText(AddEntryActivity.this, "Please enter completed value between 0 and 10000", Toast.LENGTH_SHORT).show();
-                } else if (comment.length() > 50){
+                } else if (comment.length() > 50) {
                     Toast.makeText(AddEntryActivity.this, "Please keep comments under 50 characters", Toast.LENGTH_SHORT).show();
                 } else {
-                    db.addEntry(new Entry(task.getId(),toAddDbl, comment));
+                    db.addEntry(new Entry(task.getId(), toAddDbl, comment));
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     finish();
@@ -62,9 +59,9 @@ public class AddEntryActivity extends Activity {
             }
         });
 
-        cancelEntryButton.setOnClickListener(new View.OnClickListener(){
+        cancelEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 finish();
             }
         });

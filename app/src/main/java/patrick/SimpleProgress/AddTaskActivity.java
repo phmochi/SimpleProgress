@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -41,16 +37,16 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_editbar, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch(id){
+        switch (id) {
             case R.id.btnOk:
                 String name = nameText.getText().toString().trim();
                 String goal = goalText.getText().toString().trim();
@@ -62,7 +58,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     finish();
                 } else if (name.equals("")) {
                     Toast.makeText(AddTaskActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();
-                } else if (goal.equals("")){
+                } else if (goal.equals("")) {
                     Toast.makeText(AddTaskActivity.this, "Please enter numerical goal", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(AddTaskActivity.this, "Please enter a goal between 0 and 10000", Toast.LENGTH_SHORT).show();
@@ -76,13 +72,10 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isValidGoal(String goalString){
+    private boolean isValidGoal(String goalString) {
         double goal = Double.parseDouble(goalString);
 
-        if (goal >= 0 && goal < 10000){
-            return true;
-        }
-        return false;
+        return goal >= 0 && goal < 10000;
     }
 
 }

@@ -35,14 +35,13 @@
 
         <android.support.v4.view.PagerTabStrip
             android:id="@+id/taskTabStrip"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:layout_height="wrap_content"
             android:background="#3f51b4"
-            android:textColor="#fff"
-            />
-        </android.support.v4.view.ViewPager>
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:textColor="#fff" />
+    </android.support.v4.view.ViewPager>
 
 
 </android.support.design.widget.CoordinatorLayout>

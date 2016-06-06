@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/editToAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:inputType="numberDecimal"
-        android:hint="@string/entryHint" />
+        android:hint="@string/entryHint"
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/editToAddSixty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:inputType="number"
-        android:hint="@string/sixtyHint"/>
+        android:hint="@string/sixtyHint"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/editComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:hint="@string/commentHint"/>
+        android:hint="@string/commentHint" />
 
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btnCancelEntry"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_clear_white_24dp"/>
+            android:layout_weight="1"
+            android:src="@drawable/ic_clear_white_24dp" />
+
         <ImageButton
             android:id="@+id/btnAddEntry"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_done_white_24dp"/>
+            android:layout_weight="1"
+            android:src="@drawable/ic_done_white_24dp" />
     </LinearLayout>
 
 </LinearLayout>

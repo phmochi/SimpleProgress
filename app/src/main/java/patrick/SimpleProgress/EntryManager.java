@@ -11,21 +11,21 @@ import java.util.HashMap;
 public class EntryManager {
     private HashMap<Integer, Entry> entryMap;
 
-    public EntryManager(){
+    public EntryManager() {
         entryMap = new HashMap<>();
     }
 
-    public EntryManager(ArrayList<Entry> entries){
+    public EntryManager(ArrayList<Entry> entries) {
         entryMap = new HashMap<>();
         addEntries(entries);
     }
 
-    public void addEntry(Entry e){
+    public void addEntry(Entry e) {
         entryMap.put(e.getId(), e);
     }
 
-    public void addEntries(ArrayList<Entry> entries){
-        for (Entry e: entries){
+    public void addEntries(ArrayList<Entry> entries) {
+        for (Entry e : entries) {
             entryMap.put(e.getId(), e);
         }
     }
@@ -34,7 +34,7 @@ public class EntryManager {
         entryMap.remove(e.getId());
     }
 
-    public void updateEntry(Entry updatedEntry){
+    public void updateEntry(Entry updatedEntry) {
         int key = updatedEntry.getId();
         if (entryMap.containsKey(key)) {
             Entry e = entryMap.get(updatedEntry.getId());
@@ -45,9 +45,9 @@ public class EntryManager {
         }
     }
 
-    public ArrayList<Entry> getAllEntries(){
+    public ArrayList<Entry> getAllEntries() {
 
-        ArrayList<Entry> entries = new ArrayList<> (entryMap.values());
+        ArrayList<Entry> entries = new ArrayList<>(entryMap.values());
 
         Collections.sort(entries, new Comparator<Entry>() {
             @Override
@@ -59,11 +59,11 @@ public class EntryManager {
         return entries;
     }
 
-    public double getCompleted(){
+    public double getCompleted() {
         ArrayList<Entry> entries = getAllEntries();
         double completed = 0;
 
-        for (Entry e: entries){
+        for (Entry e : entries) {
             completed += e.getHours();
         }
 
