@@ -36,10 +36,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        initializeVars();
+        updateTaskManager();
+        loadListView();
+        updateView();
+    }
+
+    private void initializeVars() {
         db = DBHelper.getInstance(this);
         welcomeMsg = (LinearLayout) findViewById(R.id.welcomeMsgLayout);
+    }
 
-        updateTaskManager();
+    //Set listview adapter and listeners
+    private void loadListView(){
         taskAdapter = new TaskAdapter(this, taskManager.getAllTasks());
 
         final ListView taskListView = (ListView) findViewById(R.id.taskListView);
@@ -60,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         taskListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
                 Intent intent = new Intent(MainActivity.this, ViewTaskActivity.class);
                 Task task = (Task) taskListView.getItemAtPosition(position);
                 intent.putExtra(TASK, task);
@@ -68,10 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        updateView();
     }
 
+    //Reload TaskManager with tasks and active entries
     private void updateTaskManager() {
         taskManager = new TaskManager(this, db.getAllTasks());
         taskManager.addActiveEntries();
@@ -85,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         welcomeMsg.setVisibility(View.GONE);
     }
 
+    //refresh the list view and display welcome message if necessary
     private void updateView() {
         updateTaskManager();
         updateAdapter();
@@ -137,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //reload the listview adapter to ensure that everything is up to date
     private void updateAdapter() {
         taskAdapter.clear();
         taskAdapter.addAll(taskManager.getAllTasks());

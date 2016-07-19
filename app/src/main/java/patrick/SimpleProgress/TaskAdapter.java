@@ -15,9 +15,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by Patrick on 5/9/2016.
- */
+//Task adapter to display tasks in the listview
 public class TaskAdapter extends ArrayAdapter<Task> {
     private Task task;
 

@@ -6,20 +6,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-//TODO: updating an entry date doesn't propagate to taskmanager
+//TODO: updating an entry date doesn't propagate to taskmanager (possibly redudant now)
 
-/**
- * Created by Patrick on 5/13/2016.
- */
+//Task manager to track tasks and their relevant entries
 public class TaskManager {
     private HashMap<Integer, Task> taskMap;
-    private Calendar currentCalendar;
     private DBHelper db;
 
     public TaskManager(Context context, ArrayList<Task> tasks) {
         taskMap = new HashMap<>();
         addTasks(tasks);
-        currentCalendar = Calendar.getInstance();
         db = DBHelper.getInstance(context);
     }
 
